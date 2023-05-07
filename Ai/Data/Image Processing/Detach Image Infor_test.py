@@ -3,4 +3,4 @@
 # 데이터 다운로드(데이터 불러오기)
 # 사람 랜드 마크 이용한 얼굴 블러처리 후 저장
 
-people_image_path =''
+people_image_path =' '
