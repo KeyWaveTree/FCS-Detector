@@ -1,4 +1,4 @@
-name: fashion_clothes
+name: fcs
 channels:
   - conda-forge
   - defaults
