@@ -3,10 +3,13 @@
 # 데이터 다운로드(데이터 불러오기)
 # 사람 랜드 마크 이용한 얼굴 블러처리 후 저장
 
-import numpy as np
+import mediapipe as mp
 import pandas as pd
+import numpy as np
 import cv2 as cv
 import os
+
+from PIL import Image, ImageDraw
 
 data_path = os.path.join('../Clothing_Data')
 # #디렉토리도 루트를 지정해야 한다.
@@ -42,3 +45,24 @@ img_path_list1(data_path)
 img_path_list2(data_path)
 
 #파일 순서 목록을
+#먼저 사진 하나로 실험
+
+#1 사진에서 랜드 마크 찍기 다른 폴더 사진으로 저장
+
+img_pose = mp.solutions.pose #미디어 파이프 솔루션
+
+
+test_path='../Clothing_Data/zalando/shirt/0DB22O00B-Q11@8.jpg'
+#경로 세팅
+if not os.path.exists('../ImgProcess'):
+      os.mkdir('../ImgProcess')
+
+if not os.path.exists('../ImgProcess/Clothing_Landmark'):
+      os.mkdir('../ImgaeProcess/Clothing_Landmark')
+
+with img_pose.Pose(
+      static_image_mode=True,
+      model_complexity=2,
+      enable_segmentation=True,
+      min_detection_confidence=0.5) as pose:
+

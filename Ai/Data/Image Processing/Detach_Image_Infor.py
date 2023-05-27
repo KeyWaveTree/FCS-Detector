@@ -29,11 +29,10 @@ def img_path_list(origin_path : str)->dict:
 
       return file_dict
 
-
+print(img_path_list(data_path))
 #이미지 처리
 #1. 사람 랜드마크 찍어내기
 #2. 사람 사진 태두리 분리
-#3.
 
 
 #이미지 처리 후 data 파일 저장
