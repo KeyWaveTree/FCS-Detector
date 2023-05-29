@@ -2,7 +2,7 @@
 # 리펙토링 단계
 # 데이터 다운로드(데이터 불러오기)
 # 사람 랜드 마크 이용한 얼굴 블러처리 후 저장
-
+import cv2.version
 import mediapipe as mp
 import pandas as pd
 import numpy as np
@@ -70,3 +70,6 @@ with img_pose.Pose(
       img_array=np.array(origin_img)
       #print(img_array.shape) - height X width X 3
       # print(img_array) 0- 1- 2-
+
+      #if of openCV
+      img=cv2.imread()
