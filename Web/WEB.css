@@ -13,12 +13,6 @@
   color: #6247aa;
 }
 
-/* .first {
-  color: #a06cd5;
-  color: #102b3f;
-}
-*/
-
 .main {
   display: flex;
   align-items: center;
@@ -148,4 +142,5 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column;
 }
