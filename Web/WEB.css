@@ -5,6 +5,9 @@
   padding-top: 10px;
   border-bottom: 1px solid #d3d3d3;
   position: sticky;
+  top: 0px;
+  background-color: white;
+  z-index: 2;
 }
 .header > h1 {
   display: flex;
@@ -143,4 +146,11 @@ li {
   justify-content: center;
   align-items: center;
   flex-flow: column;
+}
+.ai {
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+img {
+  z-index: 1;
 }
