@@ -48,8 +48,8 @@ img_path_list2(data_path)
 
 #1 사진에서 랜드 마크 찍기 다른 폴더 사진으로 저장
 
-img_pose = mp.solutions.pose #미디어 파이프 솔루션
-
+mp_img_pose = mp.solutions.pose #미디어 파이프 솔루션
+mp_pose_img_drawing=mp.solutions.drawing_utils
 
 test_path='../Clothing_Data/zalando/shirt/0DB22O00B-Q11@8.jpg'
 
@@ -68,56 +68,81 @@ if not os.path.exists('../ImgProcess/Clothing_Landmark/' + key_path):
 
 # 처리한 이미지 저장
 landmark_img_path = '../ImgProcess/Clothing_Landmark/' + key_path + '/' + key_name
-# 이미지 색상 저장 csv file로 변환
-#이미지 사람과 옷 태두리
-with img_pose.Pose(
-static_image_mode=True,
-enable_segmentation=True,
-min_detection_confidence=0.5) as pose:
+def img_contour():
 
       #근데 이미지 확장성이 jpg라서 용량이 큼 용량을 줄일 필요가 있지 않을까?
       #if of openCV
       #이미지 처리를 할때 우선적으로 관심영역만 표시를 할까?
       #아니면 원본에서 처리를 한다음에 인식을 해야 할까?
       origin_img=cv2.imread(test_path) #이미지 읽어오기
-      nagative_color_img=cv2.bitwise_not(origin_img)
-      nagative_img =cv2.cvtColor(nagative_color_img, cv2.COLOR_BGR2GRAY) # 그레이 색상으로 하는 이유는 노이즈 제거와 속도 때문에
-      positive_img=cv2.cvtColor(origin_img, cv2.COLOR_BGR2GRAY)# 그레이 색상으로 하는 이유는 노이즈 제거와 속도 때문에
 
-      _, nagative_img_binary = cv2.threshold(nagative_img, 150, 255, cv2.THRESH_BINARY)
-      _, positive_img_binary = cv2.threshold(positive_img, 150, 255, cv2.THRESH_BINARY)
+      hsv_origin_img=cv2.cvtColor(origin_img,cv2.cv2.COLOR_BGR2HSV) #노이즈제거는 GRAY이지만
 
-      nagative_find, nagative_hier = cv2.findContours(nagative_img_binary,
-                                                      mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_NONE)
-      positive_find, positive_hier = cv2.findContours(positive_img_binary,
-                                                      mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_NONE)
-      #케니 필터를 이용해서 윤곽선 추출 -보류
-      index=0
-      while index>=0:
-            #사람
-            #nagavite
+      gaussian_blur =cv2.GaussianBlur(hsv_origin_img,ksize=(3,3),sigmaX=0)
+      ret, thresh1 = cv2.threshold(gaussian_blur, 127, 255, cv2.THRESH_BINARY)
+      egde=cv2.Canny(gaussian_blur, threshold1=10, threshold2=250)
 
-            nagative_img_contour=cv2.drawContours(origin_img,
-                                         contours=find, contourIdx=index,
-                                         color=(0, 0, 255), lineType=cv2.LINE_8, hierarchy=hier)
-            #positive
+      return egde
+      #cv2.imshow(landmark_img_path, egde)  # 절대 경로, 이미지 읽을 때 옵션
+      #cv2.imwrite(landmark_img_path + '.jpg', egde)
+
+# nagative_color_img=cv2.bitwise_not(origin_img)
+# nagative_img =cv2.cvtColor(nagative_color_img, cv2.COLOR_BGR2GRAY) # 그레이 색상으로 하는 이유는 노이즈 제거와 속도 때문에
+# positive_img=cv2.cvtColor(origin_img, cv2.COLOR_BGR2GRAY)# 그레이 색상으로 하는 이유는 노이즈 제거와 속도 때문에
+#
+# _, nagative_img_binary = cv2.threshold(nagative_img, 150, 255, cv2.THRESH_BINARY)
+# _, positive_img_binary = cv2.threshold(positive_img, 150, 255, cv2.THRESH_BINARY)
+#
+# nagative_find, nagative_hier = cv2.findContours(nagative_img_binary,
+#                                                 mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_NONE)
+# positive_find, positive_hier = cv2.findContours(positive_img_binary,
+#                                                 mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_NONE)
+#
+# index=0
+# while index>=0:
+#       #사람
+#       #nagavite
+#
+#       nagative_img_contour=cv2.drawContours(origin_img,
+#                                    contours=nagative_find, contourIdx=index,
+#                                    color=(0, 0, 255), lineType=cv2.LINE_8, hierarchy=nagative_hier)
+#       #positive
+#
+#
+#       positive_img_contour = cv2.drawContours(origin_img,
+#                                      contours=positive_find, contourIdx=index,
+#                                      color=(0, 255, 0), lineType=cv2.LINE_8, hierarchy=positive_hier)
+#
+#       img_contour=cv2.bitwise_and(nagative_img_contour, positive_img_contour)
+# roi = origin_img[y:y + h, x:x + w]
+#
+# # 옷
+# thres1 = np.random.randint(0, 50)
+# thres2 = np.random.randint(thres1, 100)
+# edge=cv2.Canny(roi, threshold1=thres1, threshold2=thres2)
+# 이미지 처리 후 처리용 폴더 경로에(새로운) 처리한 이미지 저장해야 함
+
+# 이미지 색상 저장 csv file로 변환
+
+#이미지 사람과 옷 태두리
+with mp_img_pose.Pose(
+static_image_mode=True,
+enable_segmentation=True,
+min_detection_confidence=0.5) as pose:
+      origin_img = cv2.imread(test_path)
+      test_img=cv2.cvtColor(origin_img, cv2.COLOR_BGR2RGB)
+
+      img_pose = pose.process(test_img)
+
+      reset_test_img=cv2.cvtColor(test_img, cv2.cv2.COLOR_RGB2BGR)
+
+      mp_pose_img_drawing.draw_landmarks(reset_test_img, img_pose.pose_landmarks, mp_img_pose.POSE_CONNECTIONS,
+                              mp_pose_img_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2),
+                              mp_pose_img_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
 
 
-            positive_img_contour = cv2.drawContours(origin_img,
-                                           contours=find, contourIdx=index,
-                                           color=(0, 255, 0), lineType=cv2.LINE_8, hierarchy=hier)
-
-            img_contour=cv2.bitwise_and(nagative_img_contour, positive_img_contour)
-      # roi = origin_img[y:y + h, x:x + w]
-      #
-      # # 옷
-      # thres1 = np.random.randint(0, 50)
-      # thres2 = np.random.randint(thres1, 100)
-      # edge=cv2.Canny(roi, threshold1=thres1, threshold2=thres2)
-      # 이미지 처리 후 처리용 폴더 경로에(새로운) 처리한 이미지 저장해야 함
-
-      cv2.imshow(landmark_img_path, img_contour)  # 절대 경로, 이미지 읽을 때 옵션
-      cv2.imwrite(landmark_img_path+'.jpg', img_contour)
+      cv2.imshow(landmark_img_path, reset_test_img)
+      cv2.imwrite(landmark_img_path + '.jpg', reset_test_img)
 
       cv2.waitKey(0)
       cv2.destroyAllWindows()
