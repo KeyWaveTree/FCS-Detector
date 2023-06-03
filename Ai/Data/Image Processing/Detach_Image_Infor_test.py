@@ -8,8 +8,6 @@ import numpy as np
 import cv2
 import os
 
-from PIL import Image, ImageDraw
-
 data_path = os.path.join('../Clothing_Data')
 # #디렉토리도 루트를 지정해야 한다.
 # #루트가 있어야 아레의 내용을 확인 할 수 있는데 지금 경로만 하여 밑에 있는 애들을 못찾은 것이다.
@@ -67,24 +65,35 @@ if not os.path.exists('../ImgProcess/Clothing_Landmark/' + key_path):
       os.mkdir('../ImgProcess/Clothing_Landmark/' + key_path)
 
 # 처리한 이미지 저장
-landmark_img_path = '../ImgProcess/Clothing_Landmark/' + key_path + '/' + key_name
-def img_contour():
+img_path = '../ImgProcess/Clothing_Landmark/' + key_path + '/' + key_name
+
+#태두리 검출
+def img_contour(get_img_path: str)->cv2: #path
 
       #근데 이미지 확장성이 jpg라서 용량이 큼 용량을 줄일 필요가 있지 않을까?
       #if of openCV
       #이미지 처리를 할때 우선적으로 관심영역만 표시를 할까?
       #아니면 원본에서 처리를 한다음에 인식을 해야 할까?
-      origin_img=cv2.imread(test_path) #이미지 읽어오기
+      origin_img=cv2.imread(get_img_path) #이미지 읽어오기
 
       hsv_origin_img=cv2.cvtColor(origin_img,cv2.cv2.COLOR_BGR2HSV) #노이즈제거는 GRAY이지만
 
       gaussian_blur =cv2.GaussianBlur(hsv_origin_img,ksize=(3,3),sigmaX=0)
-      ret, thresh1 = cv2.threshold(gaussian_blur, 127, 255, cv2.THRESH_BINARY)
+      cv2.threshold(gaussian_blur, 127, 255, cv2.THRESH_BINARY)
       egde=cv2.Canny(gaussian_blur, threshold1=10, threshold2=250)
 
       return egde
       #cv2.imshow(landmark_img_path, egde)  # 절대 경로, 이미지 읽을 때 옵션
       #cv2.imwrite(landmark_img_path + '.jpg', egde)
+
+
+# 이미지 사람 랜드마크
+
+#cv2.imshow(img_path, reset_test_img)
+#cv2.imwrite(img_path + '.jpg', reset_test_img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 # nagative_color_img=cv2.bitwise_not(origin_img)
 # nagative_img =cv2.cvtColor(nagative_color_img, cv2.COLOR_BGR2GRAY) # 그레이 색상으로 하는 이유는 노이즈 제거와 속도 때문에
@@ -125,24 +134,4 @@ def img_contour():
 # 이미지 색상 저장 csv file로 변환
 
 #이미지 사람과 옷 태두리
-with mp_img_pose.Pose(
-static_image_mode=True,
-enable_segmentation=True,
-min_detection_confidence=0.5) as pose:
-      origin_img = cv2.imread(test_path)
-      test_img=cv2.cvtColor(origin_img, cv2.COLOR_BGR2RGB)
 
-      img_pose = pose.process(test_img)
-
-      reset_test_img=cv2.cvtColor(test_img, cv2.cv2.COLOR_RGB2BGR)
-
-      mp_pose_img_drawing.draw_landmarks(reset_test_img, img_pose.pose_landmarks, mp_img_pose.POSE_CONNECTIONS,
-                              mp_pose_img_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2),
-                              mp_pose_img_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
-
-
-      cv2.imshow(landmark_img_path, reset_test_img)
-      cv2.imwrite(landmark_img_path + '.jpg', reset_test_img)
-
-      cv2.waitKey(0)
-      cv2.destroyAllWindows()
