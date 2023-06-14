@@ -36,6 +36,7 @@ function handleClick1() {
 
 category1.addEventListener("click", handleClick1);
 
+/*ai get img*/
 const BORDER_SIZE = 10;
 const BORDER_COLOR = "#000000";
 
