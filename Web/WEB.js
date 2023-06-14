@@ -37,61 +37,33 @@ function handleClick1() {
 category1.addEventListener("click", handleClick1);
 
 /*ai get img*/
-const BORDER_SIZE = 10;
-const BORDER_COLOR = "#000000";
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
 
-new Vue({
-  el: "#app",
-  data: {
-    imageUrl: "",
-    imageStyle: {},
-    border: BORDER_SIZE,
-    borderColor: BORDER_COLOR,
-    pickedColor: BORDER_COLOR,
-    colors: ["#4286f4", "#23d160", "#FF8600", "#ff3860"],
-  },
-  methods: {
-    validateImageFile(fileList = {}) {
-      if (!fileList.length) {
-        this.error = "Invalid File";
-        return;
-      }
-      const [file] = fileList;
-      if (!file["type"].includes("image/")) {
-        this.error = "Invalid Image File";
-        return;
-      }
-      this.createImage(file);
-    },
-    onFileChange(e) {
-      this.validateImageFile(e.target.files);
-    },
-    dropImage(e) {
-      this.validateImageFile(e.dataTransfer.files);
-    },
-    createImage(file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
+    reader.onload = function (e) {
+      $(".image-upload-wrap").hide();
 
-      reader.onload = (e) => {
-        this.imageUrl = e.target.result;
-      };
-    },
-    clickColor(color) {
-      this.borderColor = color;
-    },
-    removeImage() {
-      this.imageUrl = "";
-      this.border = BORDER_SIZE;
-      this.borderColor = BORDER_COLOR;
-    },
-  },
-  computed: {
-    style() {
-      return (this.imageStyle = {
-        borderWidth: `${this.border}px`,
-        borderColor: `${this.borderColor}`,
-      });
-    },
-  },
+      $(".file-upload-image").attr("src", e.target.result);
+      $(".file-upload-content").show();
+
+      $(".image-title").html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $(".file-upload-input").replaceWith($(".file-upload-input").clone());
+  $(".file-upload-content").hide();
+  $(".image-upload-wrap").show();
+}
+$(".image-upload-wrap").bind("dragover", function () {
+  $(".image-upload-wrap").addClass("image-dropping");
+});
+$(".image-upload-wrap").bind("dragleave", function () {
+  $(".image-upload-wrap").removeClass("image-dropping");
 });
