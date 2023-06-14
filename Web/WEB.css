@@ -1,9 +1,156 @@
-.header{
-
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  border-bottom: 1px solid #d3d3d3;
+  position: sticky;
+  top: 0px;
+  background-color: white;
+  z-index: 2;
 }
-.main{
-
+.header > h1 {
+  display: flex;
 }
-.footer{
+.color {
+  color: #6247aa;
+}
 
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.category {
+  display: flex;
+  flex-flow: column;
+  width: 800px;
+}
+.cate {
+  display: flex;
+  height: 56px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(240, 240, 240);
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+.center {
+  justify-content: center;
+}
+.inside {
+  font-size: 15px;
+  font-weight: 700;
+}
+.top {
+  display: none;
+}
+.pants {
+  display: none;
+}
+#button {
+  width: 16px;
+}
+#button1 {
+  width: 16px;
+}
+.inside_category {
+  margin: 0;
+  padding: 12px 12px;
+  background-color: rgb(247, 247, 247);
+  flex-flow: column wrap;
+  display: flex;
+  list-style: none;
+}
+.category_inside {
+  text-decoration: initial;
+  cursor: pointer;
+}
+li {
+  padding: 12px 20px;
+}
+.clothes {
+  margin-top: 15px;
+}
+.product h2 {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.products {
+  position: relative;
+  overflow: hidden;
+}
+.products2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+.setting {
+  width: 196px;
+  margin-right: 8px;
+  margin-bottom: 11px;
+}
+.pro {
+  font-size: smaller;
+  color: grey;
+}
+.price {
+  font-size: larger;
+  margin-bottom: 5px;
+}
+.number1 {
+  border: 1px solid rgb(238, 238, 238);
+  background: rgb(255, 255, 255);
+  display: block;
+}
+.inside {
+  position: relative;
+  width: 100%;
+  height: 194px;
+}
+.list {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-flow: row;
+  margin-top: 10px;
+  width: 800px;
+}
+.content {
+  font-size: 14px;
+  line-height: 21px;
+  color: rgb(153, 153, 153);
+  background-color: rgb(247, 247, 247);
+  font-weight: 400;
+  border-radius: 18px;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 8px 12px;
+  user-select: none;
+  cursor: pointer;
+  margin: 10px;
+}
+.chosen {
+  color: rgb(255, 255, 255);
+  background-color: rgb(34, 34, 34);
+}
+.middle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+.ai {
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+img {
+  z-index: 1;
 }
