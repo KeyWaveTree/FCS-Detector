@@ -12,108 +12,42 @@
     <div class="header">
       <a href="WEB.html" style="text-decoration-line: none">
         <h1>
-          <div class="color1">F C S</div>
+          <div class="color">F C S</div>
         </h1>
       </a>
     </div>
     <div class="main">
-      <div id="app">
-        <div class="outer-container">
-          <div class="inner-container">
-            <h1 class="title">Not Fancy Image Upload</h1>
+      <script
+        class="jsbin"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+      ></script>
+      <div class="file-upload">
+        <button
+          class="file-upload-btn"
+          type="button"
+          onclick="$('.file-upload-input').trigger( 'click' )"
+        >
+          Add Image
+        </button>
 
-            <div
-              :class="[
-                'image',
-                {'no-image': !imageUrl},
-                {'drop': !imageUrl}]"
-              @dragover.prevent
-              @drop.stop.prevent="dropImage"
-            >
-              <div class="control-upload" v-if="!imageUrl">
-                <i class="fa fa-image icon-upload"></i>
-                <div class="control-file-upload">
-                  <label class="button is-danger">
-                    Browse
-                    <input
-                      type="file"
-                      @change="onFileChange"
-                      accept="image/*"
-                    />
-                  </label>
-                  <span>or drop image here.</span>
-                </div>
-              </div>
-              <img :style="style" :src="imageUrl" v-if="imageUrl" />
-            </div>
-
-            <div class="control" v-if="imageUrl">
-              <ul class="control-palette">
-                <li v-for="(color, index) in colors" :key="index">
-                  <div
-                    :class="['color', color]"
-                    :style="{background: color}"
-                    @click="clickColor(color)"
-                  ></div>
-                </li>
-                <li>
-                  <input
-                    class="color"
-                    type="color"
-                    v-model="pickedColor"
-                    @change="clickColor(pickedColor)"
-                  />
-                </li>
-              </ul>
-              <input
-                type="range"
-                class="slider"
-                min="0"
-                max="20"
-                v-model="border"
-              />
-              <a @click.prevent="removeImage" class="remove-image">
-                <i class="fa fa-times"></i>
-                Remove Image
-              </a>
-            </div>
+        <div class="image-upload-wrap">
+          <input
+            class="file-upload-input"
+            type="file"
+            onchange="readURL(this);"
+            accept="image/*"
+          />
+          <div class="drag-text">
+            <h3>Drag and drop a file or select add Image</h3>
           </div>
-          <!-- Social Media Footer -->
-          <div class="social-media-footer">
-            <!-- GitHub -->
-            <div class="github-code">
-              <i class="fa fa-github" aria-hidden="true"></i>
-              <a
-                href="https://github.com/samanthaming/not-fancy-image-upload"
-                target="_blank"
-              >
-                View code on GitHub
-              </a>
-            </div>
-            <div class="columns is-mobile social-columns">
-              <div class="column">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-                <a href="https://twitter.com/samantha_ming" target="_blank"
-                  >samantha_ming</a
-                >
-              </div>
-              <div class="column">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-                <a
-                  href="https://www.facebook.com/hisamanthaming"
-                  target="_blank"
-                  >hi.samanthaming</a
-                >
-              </div>
-              <div class="column">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-                <a href="https://twitter.com/samantha_ming" target="_blank"
-                  >samanthaming</a
-                >
-              </div>
-            </div>
+        </div>
+        <div class="file-upload-content">
+          <img class="file-upload-image" src="#" alt="your image" />
+          <div class="image-title-wrap">
+            <button type="button" onclick="removeUpload()" class="remove-image">
+              Remove <span class="image-title">Uploaded Image</span>
+            </button>
           </div>
-          <!--end social media-->
         </div>
       </div>
     </div>
