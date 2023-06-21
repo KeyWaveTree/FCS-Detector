@@ -202,3 +202,7 @@ cython_debug/
 
 Ai/Data/Clothing_Data/zalando
 Ai/Data/Clothing_Data/ClothingAttributeDataset/*
+Ai/Data/ImgProcess/*
+Ai/Data/ImgProcess/Clothing_Egde
+Ai/Data/ImgProcess/Correct_answer
+Ai/Data/ImgProcess/Clothing_Wear
