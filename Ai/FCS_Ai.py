@@ -5,7 +5,7 @@
 # 2. 분류한 이미지에서 유사도 학습
 import tensorflow as tf
 import numpy as np
-import glob,os
+import os
 
 resize_and_crop = tf.keras.Sequential([
     tf.keras.layers.experimental.preprocessing.RandomCrop(height=224, width=224), #랜덤크롭
@@ -109,6 +109,7 @@ def check_corrupted_images(folder_path='/Data/Clothing_Data'):
                 img.close()
 
     return num_skipped
+
 if __name__ == '__main__':
     cloth_train_dataset,  FCS_valid_dataset = load_data()
     model = create_model()

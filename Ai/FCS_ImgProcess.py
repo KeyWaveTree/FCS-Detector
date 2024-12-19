@@ -45,13 +45,13 @@ def setting_path(wirte: bool,root:bool, key_path: str or None, ) -> str or None:
 
 
 def canny_edge_img(origin_img):
-    roi = origin_img.copy()
-    glay_img = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    gaussian_blur = cv2.GaussianBlur(glay_img, ksize=(3, 3), sigmaX=0)
+    roi = origin_img.copy() #roi 지정
+    glay_img = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)#그래이 이미지로 바꿈
+    gaussian_blur = cv2.GaussianBlur(glay_img, ksize=(3, 3), sigmaX=0) #가우시안 블러처리
 
-    thresh_img = np.median(gaussian_blur)
-    thresh_lower = int(max(0, (1.0 - 0.22) * thresh_img))
-    thresh_upper = int(max(255, (1.0 + 0.22) * thresh_img))
+    thresh_img = np.median(gaussian_blur) #케니 필터 이미지 자동 조정값
+    thresh_lower = int(max(0, (1.0 - 0.22) * thresh_img))#케니필터 조정 하한
+    thresh_upper = int(max(255, (1.0 + 0.22) * thresh_img))#케니필터 조정 상한
 
     # 케니필터로
     cv2.adaptiveThreshold(gaussian_blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 9, 10)
@@ -91,10 +91,13 @@ def landmark_img_position(origin_img) -> dict or int:
             mouth = {'l': np.multiply(left_mouth, img_shape).astype(int),
                      'r': np.multiply(right_mouth, img_shape).astype(int)}
 
+            middle_neck_y = (((shoulder['l'][1] + shoulder['r'][1]) // 2) +
+                             ((mouth['l'][1] + mouth['r'][1]) // 2)) // 2
+
             right_elbow_x = np.multiply(landmarks[mp_img_pose.PoseLandmark.RIGHT_ELBOW].x, img_shape[0]).astype(int)
             left_pinky = np.multiply(left_pinky, img_shape).astype(int)
 
-            middle_neck_y = (((shoulder['l'][1] + shoulder['r'][1]) // 2) + ((mouth['l'][1] + mouth['r'][1]) // 2)) // 2
+
 
             return {'x1': right_elbow_x - 5, 'y1': middle_neck_y, 'x2': left_pinky[0], 'y2': left_pinky[1]}
 
